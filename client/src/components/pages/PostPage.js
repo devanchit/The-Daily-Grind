@@ -18,7 +18,7 @@ export default function PostPage(){
         });
     },[]);
 
-    if(!postInfo) return 'sorry no info';
+    if(!postInfo) return 'Fetching ....';
 
     return(
     <div className="post-page">
@@ -36,6 +36,7 @@ export default function PostPage(){
 
         <h1> {postInfo.title} </h1>
         <div dangerouslySetInnerHTML={{__html:postInfo.content}} />
+        <hr />
     </div>
     );
 }
