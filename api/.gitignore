@@ -26,5 +26,5 @@ yarn-error.log*
 node_modules/
 
 # Environment variables
-api/.env
+*.env
 
