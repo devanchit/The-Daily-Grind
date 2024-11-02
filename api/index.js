@@ -10,6 +10,10 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const fs = require('fs');
 
+require('dotenv').config();
+// mongoose.connect(process.env.MONGODB_URI);
+
+
 const salt = bcrypt.genSaltSync(10);
 const secret = 'asdfe45w345wegw345';
 const uploadMiddleware = multer({ dest: 'uploads/' });
@@ -18,7 +22,16 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads',express.static(__dirname +'/uploads'));
 
-mongoose.connect('mongodb+srv://devanshchitransh:lKPHlp0bjbIwaSrJ@cluster0.ef1jfbi.mongodb.net/?retryWrites=true&w=majority');
+// mongoose.connect('mongodb+srv://devanshchitransh:lKPHlp0bjbIwaSrJ@cluster0.1oy6pik.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+// mongoose.connect('mongodb+srv://devanshchitransh:lKPHlp0bjbIwaSrJ@cluster0.ef1jfbi.mongodb.net/HealthConnect?retryWrites=true&w=majority');
+// mongoose.connect('mongodb+srv://devanshchitransh:lKPHlp0bjbfwaSrJ@cluster0.ef1jfbi.mongodb.net/?retryWrites=true&w=majority');
+
+// mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(process.env.MONGODB_URI)
+      .then(() => console.log('Connected to MongoDB'))
+      .catch(err => console.error('MongoDB connection error:', err));
+
+
 
 app.post('/register', async (req,res)=> {
     const {username,password} = req.body;
@@ -38,7 +51,9 @@ app.listen(4000);
 app.post('/login', async (req,res)=> {
     const {username,password} = req.body;
     const userDoc = await User.findOne({username});
+    console.log(userDoc);
     const passOk = bcrypt.compareSync(password, userDoc.password); 
+    
     if(passOk)
     {
         // loggedin
@@ -72,7 +87,7 @@ app.post('/logout', (req,res) => {
   });
 
 app.post('/post',uploadMiddleware.single('file'), async(req,res) => {
-    const {originalname,path} = req.file;
+    const {originalname,path} = req.file;  // without file it will fail.
     const parts = originalname.split('.');
     const ext = parts[parts.length -1];
     const newPath = path + '.'+ ext;
@@ -150,6 +165,8 @@ app.post('/post',uploadMiddleware.single('file'), async(req,res) => {
 // const passOk = bcrypt.compareSync(password, userDoc.password);
 //     res.json(passOk)
 //mongodb+srv://devanshchitransh:lKPHlp0bjbIwaSrJ@cluster0.ef1jfbi.mongodb.net/?retryWrites=true&w=majority
+
+//mongodb+srv://devanshchitransh:lKPHlp0bjbIwaSrJ@cluster0.1oy6pik.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 // nodemon index.js
 
 
