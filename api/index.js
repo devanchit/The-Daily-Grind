@@ -10,8 +10,19 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const fs = require('fs');
 
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
 // mongoose.connect(process.env.MONGODB_URI);
+
+
+const mongoUri = process.env.MONGODB_URI;
+if (!mongoUri) {
+  console.error('Missing MONGODB_URI. Create api/.env from api/.env.example.');
+  process.exit(1);
+}
+
+mongoose.connect(mongoUri)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 
 const salt = bcrypt.genSaltSync(10);
@@ -22,26 +33,16 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads',express.static(__dirname +'/uploads'));
 
-// mongoose.connect('mongodb+srv://devanshchitransh:lKPHlp0bjbIwaSrJ@cluster0.1oy6pik.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-// mongoose.connect('mongodb+srv://devanshchitransh:lKPHlp0bjbIwaSrJ@cluster0.ef1jfbi.mongodb.net/HealthConnect?retryWrites=true&w=majority');
-// mongoose.connect('mongodb+srv://devanshchitransh:lKPHlp0bjbfwaSrJ@cluster0.ef1jfbi.mongodb.net/?retryWrites=true&w=majority');
-
-// mongoose.connect(process.env.MONGODB_URI);
-  mongoose.connect(process.env.MONGODB_URI)
-      .then(() => console.log('Connected to MongoDB'))
-      .catch(err => console.error('MongoDB connection error:', err));
-
-
-
 app.post('/register', async (req,res)=> {
     const {username,password} = req.body;
 
-    try{
+    try {
       const userDoc = await User.create({
         username,
-        password:bcrypt.hashSync(password,salt),
-        });
-    } catch(e){
+        password: bcrypt.hashSync(password, salt),
+      });
+      res.status(201).json(userDoc);
+    } catch (e) {
         res.status(400).json(e);
     }
 });
@@ -51,19 +52,22 @@ app.listen(4000);
 app.post('/login', async (req,res)=> {
     const {username,password} = req.body;
     const userDoc = await User.findOne({username});
-    console.log(userDoc);
-    const passOk = bcrypt.compareSync(password, userDoc.password); 
-    
+
+    if (!userDoc) {
+        return res.status(400).json('wrong credentials');
+    }
+
+    const passOk = bcrypt.compareSync(password, userDoc.password);
+
     if(passOk)
     {
-        // loggedin
         jwt.sign({username,id:userDoc._id},secret,{}, (err,token) => {
-            if(err) throw err;
-            res.cookie('token',token).json({
+            if(err) return res.status(500).json('Could not create login token');
+            res.cookie('token',token,{httpOnly:true,sameSite:'lax',maxAge:24*60*60*1000}).json({
                 id: userDoc._id,
                 username: userDoc.username,
             });
-        }); 
+        });
     }
     else
     {
@@ -74,12 +78,14 @@ app.post('/login', async (req,res)=> {
 
 app.get('/profile',(req,res) => {
     const {token} = req.cookies;
+    if (!token) {
+        return res.status(401).json({username: null});
+    }
+
     jwt.verify(token, secret, {}, (err,info) => {
-        if(err) throw err;
-        
-        res.json(info);
+        if(err) return res.status(401).json({username: null});
+        return res.json(info);
     });
-    res.json(req.cookies);
 });
 
 app.post('/logout', (req,res) => {

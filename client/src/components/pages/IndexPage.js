@@ -17,12 +17,12 @@ const IndexPage = () => {
   }, []);
   
   return (
-    <>
+    <div className="post-container">
        {posts.length > 0 && posts.map(post => (
         <Post {...post}/>
         
        ))}
-    </>
+    </div>
   );
 }
 

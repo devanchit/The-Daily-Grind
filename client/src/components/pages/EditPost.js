@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate,useParams } from 'react-router-dom';
 import ReactQuill from "react-quill";
 import Editor from "../Editor";
+import '../../styleSheets/Blogs.css';
 
 export default function EditPost(){
     const [title, settitle] = useState('')
@@ -49,22 +50,23 @@ export default function EditPost(){
         return <Navigate to = {'/post/'+id}/>
     }
     return (
-        <form onSubmit={updatePost}>here is you new post
-            <input type = "title" placeholder="Title" 
+        <form className="create-post-form" onSubmit={updatePost}>
+            <h1>Edit post</h1>
+            <input type="text" placeholder="Title"
             value={title}
             onChange={ev => settitle(ev.target.value)}
             />
-            <input type = "summary" placeholder="Summary"
+            <input type="text" placeholder="Summary"
             value={summary}
             onChange={ev => setsummary(ev.target.value)}
             />
-            <input type = "file" 
+            <input type="file"
             onChange = { ev => setfiles(ev.target.files)}
             />
 
             <Editor onChange={setcontent} value={content}/>
 
-            <button style={{marginTop:'13px'}}>Update post</button>
+            <button className="create-post-button">Update post</button>
              
         </form>
     );

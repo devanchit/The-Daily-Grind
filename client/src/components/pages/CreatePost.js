@@ -1,8 +1,8 @@
 import 'react-quill/dist/quill.snow.css';
-import ReactQuill from "react-quill";
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Editor from '../Editor';
+import '../../styleSheets/Blogs.css';
 
 export default function CreatePost(){
     const [title, settitle] = useState('')
@@ -34,21 +34,22 @@ export default function CreatePost(){
         return <Navigate to = {'/'}/>
     }
     return (
-        <form onSubmit={createNewPost}>here is you new post
-            <input type = "title" placeholder="Title" 
+        <form className="create-post-form" onSubmit={createNewPost}>
+            <h1>Create a new post</h1>
+            <input type="text" placeholder="Title"
             value={title}
             onChange={ev => settitle(ev.target.value)}
             />
-            <input type = "summary" placeholder="Summary"
+            <input type="text" placeholder="Summary"
             value={summary}
             onChange={ev => setsummary(ev.target.value)}
             />
-            <input type = "file" 
+            <input type="file"
             onChange = { ev => setfiles(ev.target.files)}
             />
 
             <Editor value={content} onChange={setcontent} />
-            <button style={{marginTop:'13px'}}>Create post</button>
+            <button className="create-post-button">Create post</button>
              
         </form>
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import {formatISO9075} from 'date-fns';
 import {Link} from "react-router-dom";
+import '../styleSheets/Blogs.css';
 export default function Post({_id,title,summary,cover,createdAt, author}) {
   return (
     <div className="post">

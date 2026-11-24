@@ -1,0 +1,123 @@
+div.post-container {
+    background-color: #f0f2f5;
+}
+
+div.post {
+    padding: 20px;
+    background-color: #efebeb;
+    border-radius: 8px;
+}
+
+.create-post-form {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.create-post-form h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.create-post-form input {
+    margin-bottom: 12px;
+    padding: 10px 12px;
+}
+
+.create-post-form .content {
+    margin: 12px 0;
+}
+
+.create-post-button {
+    width: 180px;
+    margin: 16px auto 0;
+    padding: 10px;
+}
+
+form.register-form,
+form.login-form {
+    max-width: 420px;
+    margin: 48px auto;
+    padding: 32px;
+    background-color: #ffffff;
+    border: 1px solid #dce7df;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(37, 79, 60, 0.12);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+form.register-form h1,
+form.login-form h1 {
+    margin: 0 0 24px;
+    color: #254f3c;
+    font-size: 1.8rem;
+}
+
+form.register-form input,
+form.login-form input {
+    margin-bottom: 16px;
+    padding: 12px;
+    border: 1px solid #cbd5ce;
+    border-radius: 6px;
+    font: inherit;
+}
+
+form.register-form input:focus,
+form.login-form input:focus {
+    border-color: #397455;
+    outline: 2px solid rgba(57, 116, 85, 0.2);
+}
+
+form.register-form button,
+form.login-form button {
+    padding: 12px;
+    background-color: #254f3c;
+    font: inherit;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+form.register-form button:hover,
+form.login-form button:hover {
+    background-color: #397455;
+}
+
+.dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.auth-dialog {
+    width: min(100%, 400px);
+    padding: 28px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.auth-dialog h2 {
+    margin: 0 0 12px;
+    color: #254f3c;
+}
+
+.auth-dialog p {
+    margin: 0 0 20px;
+    color: #444444;
+}
+
+.auth-dialog button {
+    max-width: 140px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    background-color: #254f3c;
+}

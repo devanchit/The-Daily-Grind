@@ -22,6 +22,15 @@ header{
     margin-bottom: 50px;
     align-items: center;
 }
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 16px 24px;
+    background-color: #254f3c;
+    color: #ffffff;
+    border-radius: 8px;
+}
 header a{
     text-decoration:rgb(6, 60, 42);
     color: inherit;
